@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+		<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+		<base href="/">
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+			</div>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", [])
+				.controller("MyCtrl", function($q) {
+
+					var
+						youngLady = $q.defer(),
+						youngMan = youngLady.promise;
+
+					youngMan.then(function(result) {
+						console.log("she said yes!");
+						console.log(result.reason);
+						return "I had a heart attack";
+					},function(result) {
+						console.log("she said no!");
+						console.log(result.reason);
+					}).then(function(result) {
+						console.log(result);
+						console.log("second resolve");
+
+					}, function() {
+
+						console.log("second reject");
+
+					});
+
+					setTimeout(function() {
+						youngLady.resolve({
+							reason: "my mom and dad made me say yes"
+						});
+						//youngLady.reject({
+						//	reason: "I am in love with your best friend, not you"
+						//});
+					}, 3000);
+					console.log("the young man is waiting, and he better get used to waiting...");
+
+
+
+				});
+
+		</script>
+	</body>
+
+</html>

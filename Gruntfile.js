@@ -13,11 +13,25 @@ module.exports = function(grunt) {
 			http = require("http"),
 			express = require("express"),
 			app = express(),
-			webServerConfig = grunt.config("webServer");
+			webServerConfig = grunt.config("webServer"),
+			path = require("path");
 
 		this.async();
 
-		app.use(express.static(webServerConfig.rootFolder));
+		app.use("/css", express.static(path.join(webServerConfig.rootFolder, "css")));
+		app.use("/js", express.static(path.join(webServerConfig.rootFolder, "js")));
+		app.use("/libs", express.static(path.join(webServerConfig.rootFolder, "libs")));
+		app.use("/partials", express.static(path.join(webServerConfig.rootFolder, "partials")));
+
+		app.use(function(req, res) {
+
+			res.sendFile(path.join(__dirname, webServerConfig.rootFolder, "index.html"), function(err) {
+				if (err) {
+					res.status(err.status).end();
+				}
+			});
+
+		});
 
 		http.createServer(app).listen(webServerConfig.port,
 			function() {

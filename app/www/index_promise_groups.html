@@ -28,43 +28,44 @@
 
 					d1.promise.then(function() {
 						console.log("d1 resolved");
-						return d2.promise;
-					},null, function(msg) {
-						console.log("notify d1: " + msg);
-					}).then(function() {
-						console.log("d2 resolved");
-						return d3.promise;
-					}).then(function() {
-						console.log("d3 resolved");
-						return d4.promise;
-					}).then(function() {
-						console.log("d4 resolved");
-					}).catch(function(err) {
-						console.log(err);
-					}).finally(function() {
-						console.log("all done");
 					});
 
-					var i = setInterval(function() {
-						d1.notify("working on it...");
-					}, 500);
+					d2.promise.then(function() {
+						console.log("d2 resolved");
+					});
+
+					d3.promise.then(function() {
+						console.log("d3 resolved");
+					});
+
+					d4.promise.then(function() {
+						console.log("d4 resolved");
+					});
+
+					$q.all([d1.promise,d2.promise,d3.promise,d4.promise])
+						.then(function(results) {
+							console.dir(results);
+							console.log("all resolved");
+						}, function(results) {
+							console.dir(results);
+							console.log("one failed");
+						});
 
 					setTimeout(function() {
-						window.clearInterval(i);
 						d1.resolve("a");
-					}, 10000);
+					}, 2000);
 
 					setTimeout(function() {
 						d2.resolve("b");
-					}, 12000);
+					}, 4000);
 
 					setTimeout(function() {
-						d3.resolve("c");
-					}, 14000);
+						d3.reject("c");
+					}, 6000);
 
 					setTimeout(function() {
 						d4.resolve("d");
-					}, 16000);
+					}, 8000);
 
 				});
 
