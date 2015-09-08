@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+				{{message | elcUpperCase | elcConcat:'!!!!!' }}
+
+				<div>
+					<label for="all-team-conference">ALL</label>
+					<input type="radio" id="all-team-conference" ng-model="teamConference"
+						value="ALL" name="teamConference">
+					<label for="nfc-team-conference">NFC</label>
+					<input type="radio" id="nfc-team-conference" ng-model="teamConference"
+						value="NFC" name="teamConference">
+					<label for="afc-team-conference">AFC</label>
+					<input type="radio" id="afc-team-conference" ng-model="teamConference"
+						value="AFC" name="teamConference">
+				</div>
+				<ul>
+					<li ng-repeat="team in teams | elcConference:teamConference">{{team.name | elcUpperCase}} - {{team.conference}}</li>
+				</ul>
+			</div>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", [])
+				.filter("elcConference", function() {
+
+					return function(originalList, conference) {
+
+						var newList = [];
+
+						originalList.forEach(function(team) {
+
+							if (conference === "ALL" || team.conference === conference) {
+								newList.push(team);
+							}
+
+						});
+
+						return newList;
+					};
+				})
+				.filter("elcConcat", function() {
+
+					return function(value, strToConcat) {
+						return String(value) + String(strToConcat);
+					}
+
+				})
+				.filter("elcUpperCase", function($log) {
+
+					$log.log("filter function elcUpperCase");
+
+					return function(value) {
+						$log.log("uppercase: " + value);
+						return String(value).toUpperCase();
+
+					};
+
+				})
+				.controller("MyCtrl", function($scope, $filter) {
+
+					$scope.teamConference = "ALL";
+
+					$scope.message = "ELC is amazing and rocks and cares for people";
+
+					$scope.teams = [
+							{ name: "49er's", conference: "NFC" },
+							{ name: "Cowboys", conference: "NFC" },
+							{ name: "Redskins", conference: "NFC" },
+							{ name: "Raiders", conference: "AFC" },
+							{ name: "Broncos", conference: "AFC" },
+							{ name: "Vikings", conference: "NFC" },
+							{ name: "Chargers", conference: "AFC" }
+					];
+
+
+					var elcUpperCase = $filter("elcUpperCase");
+					var f = elcUpperCase("Hi Class!");
+					console.log(f);
+
+					// falsy values
+					// undefined, null, 0, "", false, NaN
+
+					console.log(1 || 2);
+
+				});
+
+
+
+		</script>
+	</body>
+
+</html>

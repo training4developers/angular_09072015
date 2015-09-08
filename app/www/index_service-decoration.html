@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+			</div>
+		</div>
+		<script>
+
+			angular.module("MyApp", [])
+				.constant("IsProd", true)
+				.config(function($provide, IsProd) {
+
+					$provide.decorator("$log", function($delegate, $http) {
+
+						var originalLog = $delegate.log;
+
+						$delegate.log = function(msg) {
+							if (!IsProd) {
+								originalLog("MyApp> " + msg);
+							}
+
+							// allways call web sockets
+							// or use ajax
+							//$http.post("")
+						};
+
+						return $delegate;
+					});
+
+				})
+				.controller("MyCtrl", function($scope, $rootScope, $log) {
+
+					$log.log("I am logged!");
+
+
+				});
+
+		</script>
+	</body>
+</html>

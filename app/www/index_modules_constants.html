@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+				{{message}}
+			</div>
+		</div>
+
+		<script>
+
+			var isProd = false;
+
+			function getConstantsModule() {
+				if (isProd) {
+					return ["MyApp.Constants.Prod"];
+				} else {
+					return ["MyApp.Constants.Dev"];
+				}
+			}
+
+			angular.module("MyApp.Constants.Dev", [])
+				.constant("WELCOME_TOKEN", "Dev: Welcome Class!");
+
+			angular.module("MyApp.Constants.Prod", [])
+				.constant("WELCOME_TOKEN", "Prod: Welcome Class!");
+
+			angular.module("MyApp.Controllers", getConstantsModule())
+				.controller("MyCtrl", function($scope, WELCOME_TOKEN) {
+					$scope.message = WELCOME_TOKEN;
+				});
+
+			angular.module("MyApp", ["MyApp.Controllers"]);
+
+		</script>
+	</body>
+</html>

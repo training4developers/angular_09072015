@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div xng-app="MyApp">
+			<div ng-controller="MyCtrl">
+			</div>
+		</div>
+		<script>
+
+			angular.module("MyApp", []).controller("MyCtrl", myCtrl);
+
+			function myCtrl($scope, $log, $q, $rootScope) {
+
+				console.dir($scope);
+				console.dir($rootScope);
+				console.dir($log);
+				console.dir($q);
+
+			}
+
+			myCtrl.$inject = ["$scope", "$log", "$q", "$rootScope"];
+
+		</script>
+	</body>
+</html>

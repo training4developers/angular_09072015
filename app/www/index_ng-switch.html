@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+				<select ng-model="selectedProduct" ng-options="product.id as product.name for product in products">
+					<option value="">Select Product...</option>
+				</select>
+				<div ng-switch on="selectedProduct">
+					<div ng-switch-when="1">
+						Medicare Supplement - Over 65
+					</div>
+					<div ng-switch-when="2">
+						Final Expense
+					</div>
+					<div ng-switch-when="3">
+						Cash Supplement
+					</div>
+					<div ng-switch-default>
+						Select One...
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+
+			angular.module("MyApp", [])
+				.controller("MyCtrl", function($scope) {
+
+					$scope.products = [
+						{
+							id: 1,
+							name: "Equicare"
+						},
+						{
+							id: 2,
+							name: "Heritage Protector"
+						},
+						{
+							id: 3,
+							name: "Cancer Care"
+						}
+					];
+
+				});
+
+		</script>
+	</body>
+</html>

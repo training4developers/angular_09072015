@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div my-ng-app="MyApp">
+			{{message}}
+		</div>
+
+		<div xng-app="MyApp">
+			{{message}}
+		</div>
+
+		<script>
+
+			var x = 0;
+
+			angular.module("MyApp", [])
+				.run(function($rootScope) {
+					$rootScope.message = "Hi Class!" + x++;
+				});
+
+			$(function() {
+
+				var ngAppElement = $("[my-ng-app]");
+
+				if (ngAppElement.length > 0) {
+					angular.bootstrap(ngAppElement[0], [ngAppElement.attr("my-ng-app")]);
+				}
+
+			});
+
+			$(function() {
+				// do something else
+				//angular.bootstrap(document.getElementById("my-app"), ["MyApp"]);
+				//angular.bootstrap(document.getElementById("my-app2"), ["MyApp"]);
+			});
+
+
+		</script>
+	</body>
+</html>

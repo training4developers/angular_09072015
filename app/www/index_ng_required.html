@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+		<style>
+
+			input.ng-touched.ng-invalid, .error {
+				border: 2px solid red;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+				<form name="contactForm" novalidate xng-submit="submitForm()">
+					<div>
+						<label for="first-name">First Name</label>
+						<input ng-model="contact.firstName" name="firstName" id="first-name"
+							elc-required>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", [])
+				.directive("elcRequired", function() {
+
+					// directive definition object
+					return {
+						require: "ngModel",
+						link: function(scope, element, attrs, ctrl) {
+
+							function required(value) {
+								if (value == null || String(value).length === 0) {
+									return false;
+								} else {
+									return true;
+								}
+							}
+
+							function validate(value)  {
+
+								var isValid = required(value);
+								ctrl.$setValidity("elc-required", isValid);
+
+								if (isValid) {
+									return value;
+								}
+							}
+
+							ctrl.$formatters.push(validate);
+							ctrl.$parsers.push(validate);
+
+						}
+
+					};
+
+				})
+				.controller("MyCtrl", function($scope) {
+
+
+				});
+
+
+
+		</script>
+	</body>
+
+</html>

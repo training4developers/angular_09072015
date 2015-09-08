@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="OuterCtrl">
+
+				OuterCtrl Message: {{o.message}}<br>
+				OuterCtrl Message: <input ng-model="o.message"><br>
+
+				<div ng-controller="InnerCtrl">
+
+					InnerCtrl Message: {{o.message}}<br>
+					InnerCtrl Message: <input ng-model="o.message"><br>
+
+					<button ng-click="showScope()">Show Scope</button>
+
+				</div>
+			</div>
+		</div>
+		<script>
+
+			angular.module("MyApp", [])
+				.controller("OuterCtrl", function($scope) {
+
+					$scope.o = {};
+
+				})
+				.controller("InnerCtrl", function($scope) {
+
+					$scope.showScope = function() {
+						console.dir($scope);
+					};
+
+				});
+
+		</script>
+	</body>
+</html>

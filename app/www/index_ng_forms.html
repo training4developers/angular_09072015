@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+		<style>
+
+			input.ng-touched.ng-invalid, .error {
+				border: 2px solid red;
+			}
+
+
+
+		</style>
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+				<form name="contactForm" novalidate xng-submit="submitForm()">
+					<div>
+						<label for="first-name">First Name</label>
+						<input required ng-model="contact.firstName" name="firstName" id="first-name"
+							ng-class="validationClasses(contactForm.firstName)">
+					</div>
+					<div>
+						<label for="last-name">Last Name</label>
+						<input required ng-model="contact.lastName" name="lastName" id="last-name"
+							ng-class="validationClasses(contactForm.lastName)">
+					</div>
+					<div>
+						<label for="age">Age</label>
+						<input required ng-model="contact.age" name="age" id="age" type="number" min="13" max="65">
+						<span ng-show="contactForm.age.$touched && contactForm.age.$invalid">
+							Error: Please enter a valid age of 13 to 65.
+						</span>
+					</div>
+					<div>
+						<label for="citizenship">US Citizen</label>
+						<input type="checkbox" id="citizenship" name="citizenship">
+					</div>
+					<div>
+						<fieldset>
+							<legend>Type of Person</legend>
+							<div>
+								<label for="type-customer">Customer</label>
+								<input type="radio" id="type-customer" name="typeOfPerson" value="customer" ng-model="contact.typeOfPerson">
+							</div>
+							<div>
+								<label for="type-agent">Agent</label>
+								<input type="radio" id="type-agent" name="typeOfPerson" value="agent" ng-model="contact.typeOfPerson">
+							</div>
+							<div>
+								<label for="type-provider">Provider</label>
+								<input type="radio" id="type-provider" name="typeOfPerson" value="provider" ng-model="contact.typeOfPerson">
+							</div>
+							<div>
+								<label for="type-employee">Employee</label>
+								<input type="radio" id="type-employee" name="typeOfPerson" value="employee" ng-model="contact.typeOfPerson">
+							</div>
+						</fieldset>
+					</div>
+					<div>
+						<label for="occupation">Occupation:</label>
+						<select name="occupation" id="occupation" ng-model="contact.occupation"
+							ng-options="occupation.id as occupation.name
+								group by occupation.industry for occupation in occupations">
+							<option value="">Select One...</option>
+						</select>
+					</div>
+					<div>
+						<label for="comments">Comment:</label>
+						<textarea id="comments" ng-model="contact.comments" name="comments" row="5" cols="40"></textarea>
+					</div>
+					<button ng-click="submitForm()" type="button">Submit</button>
+				</form>
+			</div>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", [])
+				.controller("MyCtrl", function($scope) {
+
+					$scope.occupations = [
+						{ id: 1, name: "Lawyer", industry: "Legal" },
+						{ id: 2, name: "Doctor", industry: "Medical" },
+						{ id: 3, name: "Programmer", industry: "Technology" },
+						{ id: 4, name: "Judge", industry: "Legal" },
+						{ id: 5, name: "Nurse", industry: "Medical" },
+						{ id: 6, name: "Network Engineer", industry: "Technology" }
+					];
+
+					$scope.submitForm = function() {
+						console.dir($scope.contact);
+					};
+
+					$scope.validationClasses = function(field) {
+
+						return {
+							'error': field.$invalid
+						};
+
+					};
+
+
+
+
+				});
+
+		</script>
+	</body>
+
+</html>

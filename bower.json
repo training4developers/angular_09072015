@@ -1,0 +1,22 @@
+{
+  "name": "angular_09072015",
+  "version": "0.0.0",
+  "homepage": "https://github.com/training4developers/angular_09072015",
+  "authors": [
+    "Eric W. Greene <eric@training4developers.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/www/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.5",
+    "angular-ui-router": "~0.2.15",
+    "jquery": "~2.1.4"
+  }
+}
