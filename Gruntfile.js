@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 
 		this.async();
 
+		app.use("/jasmine", express.static(path.join(webServerConfig.rootFolder, "jasmine")));
 		app.use("/css", express.static(path.join(webServerConfig.rootFolder, "css")));
 		app.use("/js", express.static(path.join(webServerConfig.rootFolder, "js")));
 		app.use("/libs", express.static(path.join(webServerConfig.rootFolder, "libs")));

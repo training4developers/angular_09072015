@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Introduction to Angular.js</title>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/angular/angular.js"></script>
+		<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+		<base href="/">
+	</head>
+	<body>
+
+		<div ng-app="MyApp">
+			<div ng-controller="MyCtrl">
+			</div>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", [])
+				.controller("MyCtrl", function($q) {
+
+					var
+						d1 = $q.defer(),
+						d2 = $q.defer(),
+						d3 = $q.defer(),
+						d4 = $q.defer();
+
+					d1.promise.then(function() {
+						console.log("d1 resolved");
+						return d2.promise;
+					},null, function(msg) {
+						console.log("notify d1: " + msg);
+					}).then(function() {
+						console.log("d2 resolved");
+						return d3.promise;
+					}).then(function() {
+						console.log("d3 resolved");
+						return d4.promise;
+					}).then(function() {
+						console.log("d4 resolved");
+					}).catch(function(err) {
+						console.log(err);
+					}).finally(function() {
+						console.log("all done");
+					});
+
+					var i = setInterval(function() {
+						d1.notify("working on it...");
+					}, 500);
+
+					setTimeout(function() {
+						window.clearInterval(i);
+						d1.resolve("a");
+					}, 10000);
+
+					setTimeout(function() {
+						d2.resolve("b");
+					}, 12000);
+
+					setTimeout(function() {
+						d3.resolve("c");
+					}, 14000);
+
+					setTimeout(function() {
+						d4.resolve("d");
+					}, 16000);
+
+				});
+
+		</script>
+	</body>
+
+</html>
